@@ -17,11 +17,11 @@
   <tbody>
     <% @filmes.each do |filme| %>
       <tr>
-        <td><%= filme.titulo %></td>
-        <td><%= filme.diretor %></td>
-        <td><%= filme.estudio %></td>
-        <td><%= filme.genero %></td>
-        <td><%= filme.anoLancamento %></td>
+        <td><%= filme[:titulo] %></td>
+        <td><%= filme[:diretor] %></td>
+        <td><%= filme[:estudio] %></td>
+        <td><%= filme[:genero] %></td>
+        <td><%= filme[:ano_lancamento] %></td>
         <td><%= link_to 'Show', filme %></td>
         <td><%= link_to 'Edit', edit_filme_path(filme) %></td>
         <td><%= link_to 'Destroy', filme, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,42 +1,31 @@
-<%= form_with(model: filme, local: true) do |form| %>
-  <% if filme.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(filme.errors.count, "error") %> prohibited this filme from being saved:</h2>
-
-      <ul>
-      <% filme.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_tag("/filmes", method: "post")  do  %>
 
   <div class="field">
-    <%= form.label :titulo %>
-    <%= form.text_field :titulo, id: :filme_titulo %>
+    <%= label_tag :titulo %>
+    <%= text_field_tag :titulo %>
   </div>
 
   <div class="field">
-    <%= form.label :diretor %>
-    <%= form.text_field :diretor, id: :filme_diretor %>
+    <%= label_tag :diretor %>
+    <%= text_field_tag :diretor %>
   </div>
 
   <div class="field">
-    <%= form.label :estudio %>
-    <%= form.text_field :estudio, id: :filme_estudio %>
+    <%= label_tag :estudio %>
+    <%= text_field_tag :estudio %>
   </div>
 
   <div class="field">
-    <%= form.label :genero %>
-    <%= form.text_field :genero, id: :filme_genero %>
+    <%= label_tag :genero %>
+    <%= text_field_tag :genero %>
   </div>
 
   <div class="field">
-    <%= form.label :anoLancamento %>
-    <%= form.text_field :anoLancamento, id: :filme_anoLancamento %>
+    <%= label_tag :anoLancamento %>
+    <%= text_field_tag :anoLancamento %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= submit_tag %>
   </div>
 <% end %>

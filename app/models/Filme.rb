@@ -6,12 +6,12 @@ class Filme
     attr_accessor :anoLancamento
     
     #Construtor
-	def initialize(titulo, diretor, estudio, genero, anoLancamento)
-		@titulo=titulo
-        @diretor=diretor
-        @estudio=estudio
-        @genero=genero
-        @anoLancamento=anoLancamento
-	end
+	def initialize(filme)
+		@titulo=filme[:titulo]
+        @diretor=filme[:diretor]
+        @estudio=filme[:estudio]
+        @genero=filme[:genero]
+        @anoLancamento=filme[:anoLancamento]
+    end
     
 end

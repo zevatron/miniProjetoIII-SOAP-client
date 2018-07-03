@@ -1,10 +1,12 @@
 class FilmesController < ApplicationController
-  before_action :set_filme, only: [:show, :edit, :update, :destroy]
+  #before_action :set_filme, only: [:show, :edit, :update ]
+  before_action :conectar_soap
 
   # GET /filmes
   # GET /filmes.json
   def index
-    @filmes = Filme.all
+    response = @soap.call(:buscar_filmes)
+    @filmes =  response.body[:buscar_filmes_response][:return]
   end
 
   # GET /filmes/1
@@ -14,7 +16,7 @@ class FilmesController < ApplicationController
 
   # GET /filmes/new
   def new
-    @filme = Filme.new
+    #@filme = Filme.new
   end
 
   # GET /filmes/1/edit
@@ -25,16 +27,30 @@ class FilmesController < ApplicationController
   # POST /filmes.json
   def create
     @filme = Filme.new(filme_params)
-
+    response = @soap.call(:cadastrar, message:{
+      filme: {
+        titulo:filme_params[:titulo],
+        diretor:filme_params[:diretor],
+        estudio:filme_params[:estudio],
+        genero:filme_params[:genero],
+        anoLancamento:filme_params[:anoLancamento]
+        }})
+    logger.debug "params ===> #{ActiveSupport::JSON.encode(filme_params)}"
+    logger.info "filme ====> #{@filme.to_json}"
     respond_to do |format|
-      if @filme.save
-        format.html { redirect_to @filme, notice: 'Filme was successfully created.' }
-        format.json { render :show, status: :created, location: @filme }
-      else
-        format.html { render :new }
-        format.json { render json: @filme.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to filmes_path, notice: 'Filme was successfully created.' }
     end
+
+
+    # respond_to do |format|
+    #   if @filme.save
+    #     format.html { redirect_to filmes_path, notice: 'Filme was successfully created.' }
+    #     #format.json { render :show, status: :created, location: @filme }
+    #   else
+    #     format.html { render :new }
+    #     #format.json { render json: @filme.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /filmes/1
@@ -54,10 +70,11 @@ class FilmesController < ApplicationController
   # DELETE /filmes/1
   # DELETE /filmes/1.json
   def destroy
-    @filme.destroy
+    #@filme.destroy
+    response = @soap.call(:excluir, message:{id:filme_params[:id].to_i})
     respond_to do |format|
-      format.html { redirect_to filmes_url, notice: 'Filme was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to filmes_path, notice: 'Filme was successfully destroyed.' }
+      #format.json { head :no_content }
     end
   end
 
@@ -69,6 +86,16 @@ class FilmesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def filme_params
-      params.require(:filme).permit(:titulo, :diretor, :estudio, :genero, :anoLancamento)
+      params.permit(:id,:titulo, :diretor, :estudio, :genero, :anoLancamento,:utf8, :authenticity_token, :commit)
+      params.delete :utf8
+      params.delete :authenticity_token
+      params.delete :commit
+      params.delete :controller
+      params.delete :action
+      params
+    end
+
+    def conectar_soap
+      @soap = Savon.client(wsdl: 'https://filmesoap.herokuapp.com/service?wsdl')
     end
 end
