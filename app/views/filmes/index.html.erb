@@ -1,7 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Filmes</h1>
-
+<%= form_tag("/filmes", method: "get")  do  %>
+  <div>
+    <h3>Buscar filmes</h3>
+    <label for="titulo">Título</label><input type="text" name="busca_titulo" id="titulo"/>
+    <label for="diretor">Diretor</label><input type="text" name="busca_diretor" id="diretor"/>
+    <label for="estudio">Estúdio</label><input type="text" name="busca_estudio" id="estudio"/>
+    <label for="genero">Gênero</label><input type="text" name="busca_genero" id="genero"/>
+    <label for="ano">Ano de Lançamento</label><input type="text" name="busca_ano" id="ano"/>
+    <button type="submit" >Pesquisar </button>
+  </div>
+<% end %>
 <table>
   <thead>
     <tr>
@@ -22,8 +32,8 @@
         <td><%= filme[:estudio] %></td>
         <td><%= filme[:genero] %></td>
         <td><%= filme[:ano_lancamento] %></td>
-        <td><%= link_to 'Show', filme %></td>
-        <td><%= link_to 'Edit', edit_filme_path(filme) %></td>
+        <td><%= link_to 'Show', filme[:id] %></td>
+        <td><%= link_to 'Edit', edit_filme_path(filme[:id]) %></td>
         <td><%= link_to 'Destroy', filme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

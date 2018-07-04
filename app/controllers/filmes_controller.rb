@@ -5,8 +5,27 @@ class FilmesController < ApplicationController
   # GET /filmes
   # GET /filmes.json
   def index
-    response = @soap.call(:buscar_filmes)
-    @filmes =  response.body[:buscar_filmes_response][:return]
+    if(filme_params.empty?)
+      response = @soap.call(:buscar_filmes)
+      @filmes =  response.body[:buscar_filmes_response][:return]
+    else
+      response = @soap.call(:buscar_filme, message:{
+        titulo: filme_params[:busca_titulo],
+        diretor: filme_params[:busca_diretor],
+        estudio: filme_params[:busca_estudio],
+        genero: filme_params[:busca_genero],
+        anoLancamento: filme_params[:busca_ano]
+      })
+      @filmes =  response.body[:buscar_filme_response][:return]
+    end
+    if !@filmes.kind_of?(Array)
+      a=[]
+      a.push(@filmes)
+      @filmes = a
+    end
+    if (@filmes.nil? == true)
+      @filmes = []
+    end
   end
 
   # GET /filmes/1
@@ -86,7 +105,9 @@ class FilmesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def filme_params
-      params.permit(:id,:titulo, :diretor, :estudio, :genero, :anoLancamento,:utf8, :authenticity_token, :commit)
+      params.permit(:id,:titulo, :diretor, :estudio, :genero, :anoLancamento,
+      :utf8, :authenticity_token, :commit,
+      :busca_titulo, :busca_diretor, :busca_estudio, :busca_genero, :busca_ano)
       params.delete :utf8
       params.delete :authenticity_token
       params.delete :commit
