@@ -1,5 +1,5 @@
 class FilmesController < ApplicationController
-  #before_action :set_filme, only: [:show, :edit, :update ]
+  before_action :set_filme, only: [:show, :edit, :update ]
   before_action :conectar_soap
 
   # GET /filmes
@@ -8,23 +8,24 @@ class FilmesController < ApplicationController
     if(filme_params.empty?)
       response = @soap.call(:buscar_filmes)
       @filmes =  response.body[:buscar_filmes_response][:return]
+      logger.info "@filmes ============> #{@filmes}"
     else
       response = @soap.call(:buscar_filme, message:{
         titulo: filme_params[:busca_titulo],
         diretor: filme_params[:busca_diretor],
         estudio: filme_params[:busca_estudio],
         genero: filme_params[:busca_genero],
-        anoLancamento: filme_params[:busca_ano]
+        ano: filme_params[:busca_ano]
       })
       @filmes =  response.body[:buscar_filme_response][:return]
+    end
+    if (@filmes.nil? == true)
+      @filmes = []
     end
     if !@filmes.kind_of?(Array)
       a=[]
       a.push(@filmes)
       @filmes = a
-    end
-    if (@filmes.nil? == true)
-      @filmes = []
     end
   end
 
@@ -35,7 +36,7 @@ class FilmesController < ApplicationController
 
   # GET /filmes/new
   def new
-    #@filme = Filme.new
+    @filme = Filme.new(filme_params)
   end
 
   # GET /filmes/1/edit
@@ -48,11 +49,12 @@ class FilmesController < ApplicationController
     @filme = Filme.new(filme_params)
     response = @soap.call(:cadastrar, message:{
       filme: {
+        id:filme_params[:id].to_i,
         titulo:filme_params[:titulo],
         diretor:filme_params[:diretor],
         estudio:filme_params[:estudio],
         genero:filme_params[:genero],
-        anoLancamento:filme_params[:anoLancamento]
+        ano:filme_params[:ano]
         }})
     logger.debug "params ===> #{ActiveSupport::JSON.encode(filme_params)}"
     logger.info "filme ====> #{@filme.to_json}"
@@ -100,12 +102,12 @@ class FilmesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_filme
-      @filme = Filme.find(params[:id])
+      @filme = Filme.new(filme_params)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def filme_params
-      params.permit(:id,:titulo, :diretor, :estudio, :genero, :anoLancamento,
+      params.permit(:id,:titulo, :diretor, :estudio, :genero, :ano,
       :utf8, :authenticity_token, :commit,
       :busca_titulo, :busca_diretor, :busca_estudio, :busca_genero, :busca_ano)
       params.delete :utf8

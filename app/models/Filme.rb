@@ -1,17 +1,19 @@
 class Filme
+    attr_accessor :id
     attr_accessor :titulo
     attr_accessor :diretor
     attr_accessor :estudio
     attr_accessor :genero
-    attr_accessor :anoLancamento
+    attr_accessor :ano
     
     #Construtor
-	def initialize(filme)
+    def initialize(filme)
+        @id=filme[:id]
 		@titulo=filme[:titulo]
         @diretor=filme[:diretor]
         @estudio=filme[:estudio]
         @genero=filme[:genero]
-        @anoLancamento=filme[:anoLancamento]
+        @ano=filme[:ano]
     end
     
 end

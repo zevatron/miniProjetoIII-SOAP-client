@@ -1,28 +1,29 @@
 <%= form_tag("/filmes", method: "post")  do  %>
 
+  <%= hidden_field_tag :id , @filme.id %>
   <div class="field">
     <%= label_tag :titulo %>
-    <%= text_field_tag :titulo %>
+    <%= text_field_tag :titulo , @filme.titulo %>
   </div>
 
   <div class="field">
     <%= label_tag :diretor %>
-    <%= text_field_tag :diretor %>
+    <%= text_field_tag :diretor , @filme.diretor %>
   </div>
 
   <div class="field">
     <%= label_tag :estudio %>
-    <%= text_field_tag :estudio %>
+    <%= text_field_tag :estudio , @filme.estudio %>
   </div>
 
   <div class="field">
     <%= label_tag :genero %>
-    <%= text_field_tag :genero %>
+    <%= text_field_tag :genero , @filme.genero %>
   </div>
 
   <div class="field">
-    <%= label_tag :anoLancamento %>
-    <%= text_field_tag :anoLancamento %>
+    <%= label_tag :ano , "Ano de lançamento" %>
+    <%= text_field_tag :ano , @filme.ano %>
   </div>
 
   <div class="actions">

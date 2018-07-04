@@ -19,7 +19,7 @@
       <th>Diretor</th>
       <th>Estudio</th>
       <th>Genero</th>
-      <th>Anolancamento</th>
+      <th>Ano de lançamento</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -31,9 +31,9 @@
         <td><%= filme[:diretor] %></td>
         <td><%= filme[:estudio] %></td>
         <td><%= filme[:genero] %></td>
-        <td><%= filme[:ano_lancamento] %></td>
+        <td><%= filme[:ano] %></td>
         <td><%= link_to 'Show', filme[:id] %></td>
-        <td><%= link_to 'Edit', edit_filme_path(filme[:id]) %></td>
+        <td><%= link_to 'Edit', edit_filme_path(filme) %></td>
         <td><%= link_to 'Destroy', filme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
