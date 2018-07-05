@@ -1,32 +1,32 @@
 <%= form_tag("/filmes", method: "post")  do  %>
 
   <%= hidden_field_tag :id , @filme.id %>
-  <div class="field">
-    <%= label_tag :titulo %>
-    <%= text_field_tag :titulo , @filme.titulo %>
+  <div class="form-group row">
+    <%= label_tag :titulo , 'Título'%>
+    <%= text_field_tag :titulo , @filme.titulo, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= label_tag :diretor %>
-    <%= text_field_tag :diretor , @filme.diretor %>
+    <%= text_field_tag :diretor , @filme.diretor , class:"form-control" %>
   </div>
 
-  <div class="field">
-    <%= label_tag :estudio %>
-    <%= text_field_tag :estudio , @filme.estudio %>
+  <div class="form-group row">
+    <%= label_tag :estudio, 'Estúdio' %>
+    <%= text_field_tag :estudio , @filme.estudio, class:"form-control" %>
   </div>
 
-  <div class="field">
-    <%= label_tag :genero %>
-    <%= text_field_tag :genero , @filme.genero %>
+  <div class="form-group row">
+    <%= label_tag :genero , 'Gênero'%>
+    <%= text_field_tag :genero , @filme.genero, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= label_tag :ano , "Ano de lançamento" %>
-    <%= text_field_tag :ano , @filme.ano %>
+    <%= text_field_tag :ano , @filme.ano, class:"form-control" %>
   </div>
 
-  <div class="actions">
-    <%= submit_tag %>
+  <div class="row">
+    <%= submit_tag  'Salvar' , class:'btn btn-primary' %>
   </div>
 <% end %>

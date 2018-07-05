@@ -58,8 +58,9 @@ class FilmesController < ApplicationController
         }})
     logger.debug "params ===> #{ActiveSupport::JSON.encode(filme_params)}"
     logger.info "filme ====> #{@filme.to_json}"
+    mensagem = @filme.id.nil? == true ? 'Filme cadastrado com sucesso' : 'Filme editado com sucesso'
     respond_to do |format|
-      format.html { redirect_to filmes_path, notice: 'Filme was successfully created.' }
+      format.html { redirect_to filmes_path, notice: mensagem }
     end
 
 

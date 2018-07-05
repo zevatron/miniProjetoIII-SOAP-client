@@ -2,44 +2,58 @@
 
 <h1>Filmes</h1>
 <%= form_tag("/filmes", method: "get")  do  %>
-  <div>
-    <h3>Buscar filmes</h3>
-    <label for="titulo">Título</label><input type="text" name="busca_titulo" id="titulo"/>
-    <label for="diretor">Diretor</label><input type="text" name="busca_diretor" id="diretor"/>
-    <label for="estudio">Estúdio</label><input type="text" name="busca_estudio" id="estudio"/>
-    <label for="genero">Gênero</label><input type="text" name="busca_genero" id="genero"/>
-    <label for="ano">Ano de Lançamento</label><input type="text" name="busca_ano" id="ano"/>
-    <button type="submit" >Pesquisar </button>
+  <div class="card text-white bg-secondary">
+    <div class="card-header">Buscar filmes</div>
+    <div class="card-body form-group">
+      <div class="row">
+        <div class="col">
+          <label for="titulo">Título</label>
+          <input class="form-control" type="text" name="busca_titulo" id="titulo"/>
+          <label for="diretor">Diretor</label>
+          <input class="form-control" type="text" name="busca_diretor" id="diretor"/>
+        </div>
+        <div class="col">
+          <label for="estudio">Estúdio</label>
+          <input class="form-control" type="text" name="busca_estudio" id="estudio"/>
+          <label for="genero">Gênero</label>
+          <input class="form-control" type="text" name="busca_genero" id="genero"/>
+        </div>
+        <div class="col">
+          <label for="ano">Ano de Lançamento</label>
+          <input class="form-control" type="text" name="busca_ano" id="ano"/>
+          <button type="submit" class="btn btn-info btn-lg float-right" >Pesquisar </button>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Titulo</th>
-      <th>Diretor</th>
-      <th>Estudio</th>
-      <th>Genero</th>
-      <th>Ano de lançamento</th>
-      <th colspan="3"></th>
+      <th scope="col">Titulo</th>
+      <th scope="col">Diretor</th>
+      <th scope="col">Estudio</th>
+      <th scope="col">Genero</th>
+      <th scope="col">Ano de lançamento</th>
+      <th scope="col" colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @filmes.each do |filme| %>
-      <tr>
+      <tr class="table-active">
         <td><%= filme[:titulo] %></td>
         <td><%= filme[:diretor] %></td>
         <td><%= filme[:estudio] %></td>
         <td><%= filme[:genero] %></td>
         <td><%= filme[:ano] %></td>
-        <td><%= link_to 'Show', filme[:id] %></td>
-        <td><%= link_to 'Edit', edit_filme_path(filme) %></td>
-        <td><%= link_to 'Destroy', filme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Exibir', filme[:id], class: 'btn btn-info btn-sm' %></td>
+        <td><%= link_to 'Editar', edit_filme_path(filme),class: 'btn btn-warning btn-sm' %></td>
+        <td><%= link_to 'Excluir', filme, method: :delete, data: { confirm: 'Tem certeza que deseja excluir?' }, class: 'btn btn-danger btn-sm' %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Filme', new_filme_path %>
+<%= link_to 'Cadastrar filme', new_filme_path, {class: 'btn btn-primary'} %>
