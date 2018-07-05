@@ -36,7 +36,9 @@ class FilmesController < ApplicationController
 
   # GET /filmes/new
   def new
+    logger.info "=============================="
     @filme = Filme.new(filme_params)
+    logger.info "filme ====> #{@filme.id.nil?}"
   end
 
   # GET /filmes/1/edit
@@ -58,7 +60,7 @@ class FilmesController < ApplicationController
         }})
     logger.debug "params ===> #{ActiveSupport::JSON.encode(filme_params)}"
     logger.info "filme ====> #{@filme.to_json}"
-    mensagem = @filme.id.nil? == true ? 'Filme cadastrado com sucesso' : 'Filme editado com sucesso'
+    mensagem = 'Filme salvo com sucesso'
     respond_to do |format|
       format.html { redirect_to filmes_path, notice: mensagem }
     end
@@ -95,7 +97,7 @@ class FilmesController < ApplicationController
     #@filme.destroy
     response = @soap.call(:excluir, message:{id:filme_params[:id].to_i})
     respond_to do |format|
-      format.html { redirect_to filmes_path, notice: 'Filme was successfully destroyed.' }
+      format.html { redirect_to filmes_path, notice: 'Filme excluido com sucesso ==> ' << response.body[:excluir_response][:return].to_s }
       #format.json { head :no_content }
     end
   end
